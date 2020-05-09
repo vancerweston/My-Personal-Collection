@@ -1,0 +1,23 @@
+{
+  "name": "my-personal-collection",
+  "version": "1.0.0",
+  "description": "MongoDB assignment for Neumont College",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vancerweston/My-Personal-Collection.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vancerweston/My-Personal-Collection/issues"
+  },
+  "homepage": "https://github.com/vancerweston/My-Personal-Collection#readme",
+  "dependencies": {
+    "moment": "^2.25.3",
+    "mongoose": "^5.9.13"
+  }
+}
