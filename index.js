@@ -15,8 +15,13 @@ mongoose.connect(connectiong_string)
     .then(() => {
         console.log('<<-- The MongoDB connection was successful -->>');
 
-        // execute functions here:
-        create_library();
+        create_library().then(
+            sort_books
+        ).then(
+            update_book
+        ).then(
+            delete_fake_book
+        );
         // sort_books();
         // update_book();
         // delete_fake_book();
@@ -126,9 +131,8 @@ function create_library() {
             console.log('Error: ', err);
         });
     
-
+    return Promise.all([save_promise_one, save_promise_two, save_promise_three, save_promise_four, save_promise_five]);
 }
-
 
 function sort_books() {
     console.log('<<-- Sorting Books -->>');
@@ -140,12 +144,11 @@ function sort_books() {
         .then((books) => {
             console.log('<<-- Sorting by Title, Ascending -->>');
 
-            books.map((book) => console.log(book.title + ' ' + book.author));
+            books.forEach((book) => console.log(book.title + ' ' + book.author));
         })
         .catch((err) => {
             console.log('Error: ', err);
         });
-    
     let books_query_two = Book.find({});
     books_query_two.sort({author: 1})
     let find_promise_two = books_query_two.exec();
@@ -153,20 +156,22 @@ function sort_books() {
         .then((books) => {
             console.log('<<-- Sorting by Author, Ascending -->>');
 
-            books.map((book) => console.log(book.title + ' ' + book.author));
+            books.forEach((book) => console.log(book.title + ' ' + book.author));
         })
         .catch((err) => {
             console.log('Error: ', err);
         });
+
+    return Promise.all([find_promise_one, find_promise_two]);
 }
 
 function update_book() {
     console.log('<<-- Updating mistyped title for book -->>');
 
-    let book_id = '5eb5cec6c31ff933e84af8f5';
+    let book_title = 'The Sea of Carrots';
 
     Book.findOneAndUpdate(
-            { _id: book_id },
+            { title: book_title },
             { title: 'The Sea of Monsters' },
             { new: true }, 
             (err, updated_book) => {
@@ -175,18 +180,20 @@ function update_book() {
                 }
     
                 console.log(updated_book);
+                return Promise.resolve();
             });
 }
 
 function delete_fake_book() {
-    let book_id = '5eb5cec6c31ff933e84af8f6';
+    let book_title = 'The Great Fake Scandle';
 
-    let delete_promise = Book.findOneAndDelete({_id: book_id}).exec();
+    let delete_promise = Book.findOneAndDelete({title: book_title}).exec();
     delete_promise 
         .then((book) => {
-            console.log(book);
+            console.log('<<-- Deleted Fake Book -->>', book.title);
         })
         .catch((err) => {
             console.log('ERROR: ', err);
-        })
+        });
+    return delete_promise;
 }
