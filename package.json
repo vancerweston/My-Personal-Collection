@@ -18,6 +18,6 @@
   "homepage": "https://github.com/vancerweston/My-Personal-Collection#readme",
   "dependencies": {
     "moment": "^2.25.3",
-    "mongoose": "^5.9.13"
+    "mongoose": "^5.13.15"
   }
 }
